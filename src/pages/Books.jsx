@@ -1,4 +1,10 @@
 import "../styles/Home.css";
+import { requireAuth } from "../utils";
+
+export async function loader() {
+  await requireAuth();
+  return "This is ok.";
+}
 
 function Books() {
   return (

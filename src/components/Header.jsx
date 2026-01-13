@@ -27,7 +27,7 @@ export default function Header() {
           Books
         </NavLink>
         <NavLink
-          to="login"
+          to="profile"
           className={({ isActive }) =>
             `login-link ${isActive ? "login-active" : ""}`
           }
