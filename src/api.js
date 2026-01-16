@@ -26,12 +26,34 @@ export async function loginUser(creds) {
         throw errorMessage;
     }
 
-    return data; // success data
+    return data;
 }
 
 
-export async function getBooks(id) {
-   
+export async function registerUser(creds) {
+   const res = await fetch(`${API_URL}/Auth/register`,{ 
+        method: "post", 
+        headers: {
+            "Content-Type": "application/json",
+        }, 
+        body: JSON.stringify(creds) 
+    })
 
-    return 
+    let data;
+    const contentType = res.headers.get("content-type");
+
+    if (contentType && contentType.includes("application/json")) {
+        data = await res.json();
+    } else {
+        data = await res.text();
+    }
+
+    if (!res.ok) {
+        const errorMessage = typeof data === "string" 
+            ? data 
+            : data.message || "Unknown error";
+        throw errorMessage;
+    }
+
+    return data; 
 }

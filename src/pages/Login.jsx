@@ -1,7 +1,17 @@
 import "../styles/Login.css";
 import React from "react";
-import { useLoaderData, Form, redirect, useActionData } from "react-router-dom";
+import {
+  useLoaderData,
+  Form,
+  redirect,
+  useActionData,
+  Link,
+} from "react-router-dom";
 import { loginUser } from "../api";
+
+export function loader({ request }) {
+  return new URL(request.url).searchParams.get("message");
+}
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -11,6 +21,7 @@ export async function action({ request }) {
     const data = await loginUser({ username, password });
     localStorage.setItem("accessToken", data.accessToken);
     localStorage.setItem("refreshToken", data.refreshToken);
+    localStorage.setItem("username", username);
     return redirect("/profile");
   } catch (err) {
     return err;
@@ -24,6 +35,7 @@ function Login() {
   return (
     <div className="login-container">
       <h1>Sign in to your account</h1>
+      {message && <h3 className="login-success">{message}</h3>}
       {errorMessage && <h3 className="login-error">{errorMessage}</h3>}
 
       <Form method="post" className="login-form" replace>
@@ -31,6 +43,10 @@ function Login() {
         <input name="password" type="password" placeholder="Password" />
         <button>Log in</button>
       </Form>
+
+      <p className="auth-switch">
+        Don’t have an account? <Link to="/register">Register</Link>
+      </p>
     </div>
   );
 }

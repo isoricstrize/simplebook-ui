@@ -1,27 +1,31 @@
-import "../styles/Home.css";
-import { requireAuth } from "../utils";
+import "../styles/Profile.css";
 import { redirect, useNavigate } from "react-router-dom";
-
-export async function loader() {
-  await requireAuth();
-  return "This is ok.";
-}
 
 function Profile() {
   const navigate = useNavigate();
+  const username = localStorage.getItem("username");
 
-  function fakeLogOut() {
+  function logout() {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("username");
     navigate("/login");
   }
 
   return (
-    <>
-      <h1>This is Profile page.</h1>
+    <div className="profile-container">
+      <img
+        src="src/assets/avatar-icon.svg"
+        alt="Profile"
+        className="profile-image"
+      />
 
-      <button onClick={fakeLogOut}>X</button>
-    </>
+      <h2 className="profile-username">{username}</h2>
+
+      <button className="logout-btn" onClick={logout}>
+        Logout
+      </button>
+    </div>
   );
 }
 

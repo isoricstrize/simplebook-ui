@@ -6,6 +6,10 @@
   padding-top: 150px;
 }
 
+.login-container > h1 {
+  color: rgb(57, 57, 57);
+}
+
 .login-form {
   display: flex;
   flex-direction: column;
@@ -49,4 +53,26 @@
 
 .login-error {
   color: #cc0000;
+}
+
+.login-success {
+  color: #2e7d32; /* green */
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.auth-switch {
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.auth-switch a {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
 }
