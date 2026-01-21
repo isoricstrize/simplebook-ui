@@ -140,3 +140,32 @@ nav {
   background-color: #4d4d4d;
   transform: scale(1.05);
 }
+
+/* ERROR */
+.error-page {
+  padding-top: 120px;
+  text-align: center;
+  color: #333;
+}
+
+.error-page h1 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.error-page p {
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.error-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.error-actions a {
+  text-decoration: none;
+  color: #1976d2;
+  font-weight: 500;
+}

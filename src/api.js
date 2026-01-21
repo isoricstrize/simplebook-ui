@@ -57,3 +57,60 @@ export async function registerUser(creds) {
 
     return data; 
 }
+
+
+export async function refreshAccessToken() {
+  const refreshToken = localStorage.getItem("refreshToken");
+
+  const res = await fetch(`${API_URL}/Auth/refresh-token`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ refreshToken }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Refresh failed");
+  }
+
+  const data = await res.json();
+  localStorage.setItem("accessToken", data.accessToken);
+  localStorage.setItem("refreshToken", data.refreshToken);
+}
+
+
+export async function getBooks() {
+    let token = localStorage.getItem("accessToken");
+
+   let res = await fetch(`${API_URL}/Book`,{ 
+        method: "GET", 
+        headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    })
+
+    if (res.status === 401) {
+        try {
+            await refreshAccessToken();
+        } catch {
+            localStorage.clear();
+            throw new Error("Session expired. Please log in again.");
+        }
+
+        // retry request
+        token = localStorage.getItem("accessToken");
+        res = await fetch(`${API_URL}/Book`, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+  
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch books");
+  }
+
+  return await res.json();
+}
