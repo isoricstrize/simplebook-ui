@@ -114,3 +114,43 @@ export async function getBooks() {
 
   return await res.json();
 }
+
+
+
+export async function getBook(bookId) {
+    let token = localStorage.getItem("accessToken");
+
+        console.log("GETTING BOOK", bookId)
+
+
+    let res = await fetch(`${API_URL}/Book/${bookId}`,{ 
+            method: "GET", 
+            headers: {
+        Authorization: `Bearer ${token}`,
+        },
+    })
+
+    if (res.status === 401) {
+        try {
+            await refreshAccessToken();
+        } catch {
+            localStorage.clear();
+            throw new Error("Session expired. Please log in again.");
+        }
+
+        // retry request
+        token = localStorage.getItem("accessToken");
+        res = await fetch(`${API_URL}/Book/${bookId}`, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+  
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch book with id: ", bookId);
+  }
+
+  return await res.json();
+}

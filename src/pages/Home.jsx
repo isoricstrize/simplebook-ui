@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Home.css";
-import { loginUser } from "../api";
 
 function Home() {
   return (

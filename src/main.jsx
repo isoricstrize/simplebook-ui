@@ -10,6 +10,9 @@ import {
 import "./index.css";
 import Home from "./pages/Home.jsx";
 import Books, { loader as booksLoader } from "./pages/Books.jsx";
+import BookDetails, {
+  loader as bookDetailsLoader,
+} from "./pages/BookDetails.jsx";
 import Profile from "./pages/Profile.jsx";
 import Login, {
   action as loginAction,
@@ -29,6 +32,12 @@ const router = createBrowserRouter(
         element={<Books />}
         errorElement={<Error />}
         loader={booksLoader}
+      />
+      <Route
+        path="books/:id"
+        element={<BookDetails />}
+        //errorElement={<Error />}
+        loader={bookDetailsLoader}
       />
       <Route
         path="profile"

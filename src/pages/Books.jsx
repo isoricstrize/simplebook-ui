@@ -1,7 +1,7 @@
 import "../styles/Books.css";
 import { requireAuth } from "../utils";
 import { getBooks } from "../api";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 export async function loader() {
   await requireAuth();
@@ -12,10 +12,10 @@ function Books() {
   const books = useLoaderData();
 
   const booksElements = books.map((book) => (
-    <div key={book.id} className="book-row book-item">
+    <Link key={book.id} to={`/books/${book.id}`} className="book-row book-item">
       <p>{book.title}</p>
       <p>{book.author.name}</p>
-    </div>
+    </Link>
   ));
 
   return (
