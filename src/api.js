@@ -120,9 +120,6 @@ export async function getBooks() {
 export async function getBook(bookId) {
     let token = localStorage.getItem("accessToken");
 
-        console.log("GETTING BOOK", bookId)
-
-
     let res = await fetch(`${API_URL}/Book/${bookId}`,{ 
             method: "GET", 
             headers: {
@@ -153,4 +150,95 @@ export async function getBook(bookId) {
   }
 
   return await res.json();
+}
+
+export async function getAuthorsGenres() {
+    const books = await getBooks(); 
+    const authorMap = new Map();
+    const genreMap = new Map();
+
+    books.forEach(book => {
+        // authors
+        if (book.author && !authorMap.has(book.author.id)) {
+            authorMap.set(book.author.id, book.author);
+        }
+
+        // genres
+        book.genres.forEach(genre => {
+            if (!genreMap.has(genre.id)) {
+                genreMap.set(genre.id, genre);
+            }
+        });
+    });
+
+    return {
+        authors: Array.from(authorMap.values()),
+        genres: Array.from(genreMap.values())
+    };
+}
+
+
+export async function addBook(book) {
+    let token = localStorage.getItem("accessToken");
+
+    const res = await fetch(`${API_URL}/Book`, {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(book),
+    });       
+
+    // Read response safely
+    const text = await res.text();
+    let data;
+    try {
+        data = JSON.parse(text);
+    } catch {
+        data = null;
+    }
+
+    if (!res.ok) {
+        const errorMessage = data?.message || text || res.statusText;
+        throw new Error(errorMessage);
+    }
+
+    return data;
+}
+
+export async function deleteBook(bookId) {
+    let token = localStorage.getItem("accessToken");
+
+    let res = await fetch(`${API_URL}/Book/${bookId}`,{ 
+            method: "DELETE", 
+            headers: {
+        Authorization: `Bearer ${token}`,
+        },
+    })
+
+    if (res.status === 401) {
+        try {
+            await refreshAccessToken();
+        } catch {
+            localStorage.clear();
+            throw new Error("Session expired. Please log in again.");
+        }
+
+        // retry request
+        token = localStorage.getItem("accessToken");
+        res = await fetch(`${API_URL}/Book/${bookId}`, {
+            method: "DELETE",
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        });
+    }
+  
+
+  if (!res.ok) {
+    throw new Error("Failed to delete book with id: ", bookId);
+  }
+
+  return true;
 }

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "../styles/BookDetails.css";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import { requireAuth } from "../utils";
-import { getBook } from "../api";
+import { getBook, deleteBook } from "../api";
 
 export async function loader({ params }) {
   await requireAuth();
@@ -11,9 +11,18 @@ export async function loader({ params }) {
 
 function BookDetails() {
   const book = useLoaderData();
-  console.log(book);
   const navigate = useNavigate();
   const isAdmin = true;
+
+  function handleDelete() {
+    if (!window.confirm("Are you sure you want to delete this book?")) return;
+
+    deleteBook(book.id)
+      .then((data) => {
+        navigate("/books", { replace: true });
+      })
+      .catch((err) => console.log(err));
+  }
 
   return (
     <div className="book-details-container">
@@ -52,8 +61,15 @@ function BookDetails() {
 
       {isAdmin && (
         <div className="book-actions">
-          <button className="edit-btn">Edit</button>
-          <button className="delete-btn">Delete</button>
+          <button
+            className="edit-btn"
+            onClick={() => navigate(`/books/${book.id}/edit`)}
+          >
+            Edit
+          </button>
+          <button className="delete-btn" onClick={handleDelete}>
+            Delete
+          </button>
         </div>
       )}
     </div>

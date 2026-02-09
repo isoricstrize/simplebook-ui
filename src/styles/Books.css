@@ -1,6 +1,6 @@
 .books-container {
   max-width: 800px;
-  margin: 50px auto 50px;
+  margin: 80px auto 50px;
   padding: 0 20px;
 }
 
@@ -12,9 +12,8 @@
   padding: 12px 16px;
   margin-bottom: 10px;
 
-  border-radius: 6px;
-  background-color: #f9f9f9;
-  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background-color: #fff;
 }
 
 .book-title {
@@ -41,5 +40,27 @@
 }
 
 .book-item:hover {
-  background-color: #f1f5f9;
+  background-color: #fef1df;
+}
+
+.books-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.add-book-btn {
+  background-color: #f69618;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.add-book-btn:hover {
+  background-color: #f3a743;
+  transform: scale(1.05);
 }

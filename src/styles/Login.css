@@ -41,14 +41,19 @@
 }
 
 .login-form > button {
-  background-color: #f4c23f;
+  background-color: #f69618;
   border: none;
   border-radius: 6px;
-  height: 55px;
+  height: 50px;
   margin-top: 22px;
   color: white;
   font-family: "Inter", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  transition: background-color 0.2s ease;
+}
+
+.login-form > button:hover {
+  background-color: #f3a743;
 }
 
 .login-error {

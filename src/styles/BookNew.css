@@ -1,0 +1,78 @@
+.new-book-container {
+  max-width: 500px;
+  margin: 80px auto;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.book-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.book-form input,
+.book-form textarea,
+.book-form select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-form input:focus,
+.book-form textarea:focus,
+.book-form select:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
+}
+
+.book-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.genres {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.book-form button {
+  background-color: #f69618;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+}
+
+.book-form button:hover {
+  background-color: #f3a743;
+}
+
+.book-form .edit {
+  background-color: #1976d2;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+}
+
+.book-form .edit:hover {
+  background-color: #4085cb;
+}

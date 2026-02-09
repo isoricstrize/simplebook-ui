@@ -1,7 +1,10 @@
 .book-details-container {
   max-width: 700px;
-  margin: 0 auto;
-  padding-top: 50px;
+  margin: 80px auto;
+  padding: 50px 32px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .book-title {
@@ -26,6 +29,7 @@
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .genre-badge {
@@ -48,6 +52,12 @@
   border: none;
   padding: 10px 20px;
   border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-btn:hover {
+  background-color: #4085cb;
 }
 
 .delete-btn {
@@ -56,6 +66,12 @@
   border: none;
   padding: 10px 20px;
   border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: #e4504e;
 }
 
 .back-btn {

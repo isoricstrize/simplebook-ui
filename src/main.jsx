@@ -13,6 +13,14 @@ import Books, { loader as booksLoader } from "./pages/Books.jsx";
 import BookDetails, {
   loader as bookDetailsLoader,
 } from "./pages/BookDetails.jsx";
+import BookNew, {
+  loader as bookNewLoader,
+  action as bookNewAction,
+} from "./pages/BookNew.jsx";
+import BookEdit, {
+  loader as bookEditLoader,
+  action as bookEditAction,
+} from "./pages/BookEdit.jsx";
 import Profile from "./pages/Profile.jsx";
 import Login, {
   action as loginAction,
@@ -36,8 +44,21 @@ const router = createBrowserRouter(
       <Route
         path="books/:id"
         element={<BookDetails />}
-        //errorElement={<Error />}
+        errorElement={<Error />}
         loader={bookDetailsLoader}
+      />
+      <Route
+        path="books/new"
+        element={<BookNew />}
+        errorElement={<Error />}
+        loader={bookNewLoader}
+        action={bookNewAction}
+      />
+      <Route
+        path="books/:id/edit"
+        element={<BookEdit />}
+        loader={bookEditLoader}
+        action={bookEditAction}
       />
       <Route
         path="profile"
