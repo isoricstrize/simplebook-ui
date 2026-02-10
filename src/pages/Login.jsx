@@ -7,7 +7,7 @@ import {
   useActionData,
   Link,
 } from "react-router-dom";
-import { loginUser } from "../api";
+import { loginUser } from "../api/authApi";
 import { setAccessToken, setRefreshToken, setUsername } from "../utils";
 
 export function loader({ request }) {

@@ -1,5 +1,6 @@
 import "../styles/Home.css";
 import { Link, NavLink } from "react-router-dom";
+import avatarIcon from "../assets/avatar-icon.svg";
 
 export default function Header() {
   const activeStyles = {
@@ -32,7 +33,7 @@ export default function Header() {
             `login-link ${isActive ? "login-active" : ""}`
           }
         >
-          <img src="src/assets/avatar-icon.svg" className="login-icon" />
+          <img src={avatarIcon} className="login-icon" />
         </NavLink>
       </nav>
     </header>

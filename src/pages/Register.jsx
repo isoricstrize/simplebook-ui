@@ -1,7 +1,7 @@
 import "../styles/Login.css";
 import React from "react";
 import { Form, redirect, useActionData, Link } from "react-router-dom";
-import { registerUser } from "../api";
+import { registerUser } from "../api/authApi";
 
 export async function action({ request }) {
   const formData = await request.formData();
