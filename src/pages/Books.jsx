@@ -1,5 +1,5 @@
 import "../styles/Books.css";
-import { requireAuth } from "../utils";
+import { requireAuth, isAuthorized } from "../utils";
 import { getBooks } from "../api";
 import { Link, useLoaderData } from "react-router-dom";
 
@@ -10,7 +10,7 @@ export async function loader() {
 
 function Books() {
   const books = useLoaderData();
-  const isAdmin = true; //localStorage.getItem("role") === "Admin";
+  const isAdmin = isAuthorized();
 
   const booksElements = books.map((book) => (
     <Link key={book.id} to={`/books/${book.id}`} className="book-row book-item">

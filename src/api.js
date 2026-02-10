@@ -1,3 +1,5 @@
+import { getRefreshToken, getAccessToken, setRefreshToken, setAccessToken, clearLocalStorageData } from "./utils";
+
 const API_URL = "http://localhost:5041/api";
 
 export async function loginUser(creds) {
@@ -60,7 +62,7 @@ export async function registerUser(creds) {
 
 
 export async function refreshAccessToken() {
-  const refreshToken = localStorage.getItem("refreshToken");
+  const refreshToken = getRefreshToken();
 
   const res = await fetch(`${API_URL}/Auth/refresh-token`, {
     method: "POST",
@@ -75,13 +77,13 @@ export async function refreshAccessToken() {
   }
 
   const data = await res.json();
-  localStorage.setItem("accessToken", data.accessToken);
-  localStorage.setItem("refreshToken", data.refreshToken);
+  setAccessToken(data.accessToken);
+  setRefreshToken(data.refreshToken);
 }
 
 
 export async function getBooks() {
-    let token = localStorage.getItem("accessToken");
+    let token = getAccessToken();
 
    let res = await fetch(`${API_URL}/Book`,{ 
         method: "GET", 
@@ -94,12 +96,12 @@ export async function getBooks() {
         try {
             await refreshAccessToken();
         } catch {
-            localStorage.clear();
+            clearLocalStorageData();
             throw new Error("Session expired. Please log in again.");
         }
 
         // retry request
-        token = localStorage.getItem("accessToken");
+        token = getAccessToken();
         res = await fetch(`${API_URL}/Book`, {
             headers: {
             Authorization: `Bearer ${token}`,
@@ -118,7 +120,7 @@ export async function getBooks() {
 
 
 export async function getBook(bookId) {
-    let token = localStorage.getItem("accessToken");
+    let token = getAccessToken();
 
     let res = await fetch(`${API_URL}/Book/${bookId}`,{ 
             method: "GET", 
@@ -131,12 +133,12 @@ export async function getBook(bookId) {
         try {
             await refreshAccessToken();
         } catch {
-            localStorage.clear();
+            clearLocalStorageData();
             throw new Error("Session expired. Please log in again.");
         }
 
         // retry request
-        token = localStorage.getItem("accessToken");
+        token = getAccessToken();
         res = await fetch(`${API_URL}/Book/${bookId}`, {
             headers: {
             Authorization: `Bearer ${token}`,
@@ -179,7 +181,7 @@ export async function getAuthorsGenres() {
 
 
 export async function addBook(book) {
-    let token = localStorage.getItem("accessToken");
+    let token = getAccessToken();
 
     const res = await fetch(`${API_URL}/Book`, {
         method: "POST",
@@ -188,7 +190,27 @@ export async function addBook(book) {
         "Authorization": `Bearer ${token}`,
         },
         body: JSON.stringify(book),
-    });       
+    });
+    
+    if (res.status === 401) {
+        try {
+            await refreshAccessToken();
+        } catch {
+            clearLocalStorageData();
+            throw new Error("Session expired. Please log in again.");
+        }
+
+        // retry request
+        token = getAccessToken();
+        res = await fetch(`${API_URL}/Book`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify(book),
+        });
+    }
 
     // Read response safely
     const text = await res.text();
@@ -208,7 +230,7 @@ export async function addBook(book) {
 }
 
 export async function deleteBook(bookId) {
-    let token = localStorage.getItem("accessToken");
+    let token = getAccessToken();
 
     let res = await fetch(`${API_URL}/Book/${bookId}`,{ 
             method: "DELETE", 
@@ -221,12 +243,12 @@ export async function deleteBook(bookId) {
         try {
             await refreshAccessToken();
         } catch {
-            localStorage.clear();
+            clearLocalStorageData();
             throw new Error("Session expired. Please log in again.");
         }
 
         // retry request
-        token = localStorage.getItem("accessToken");
+        token = getAccessToken();
         res = await fetch(`${API_URL}/Book/${bookId}`, {
             method: "DELETE",
             headers: {
@@ -238,6 +260,46 @@ export async function deleteBook(bookId) {
 
   if (!res.ok) {
     throw new Error("Failed to delete book with id: ", bookId);
+  }
+
+  return true;
+}
+
+export async function updateBook(book, bookId) {
+    let token = getAccessToken();
+
+    const res = await fetch(`${API_URL}/Book/${bookId}`, {
+        method: "PUT",
+        headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(book),
+    });       
+
+    if (res.status === 401) {
+        try {
+            await refreshAccessToken();
+        } catch {
+            clearLocalStorageData();
+            throw new Error("Session expired. Please log in again.");
+        }
+
+        // retry request
+        token = getAccessToken();
+        res = await fetch(`${API_URL}/Book/${bookId}`, {
+            method: "PUT",
+            headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify(book),
+        });
+    }
+  
+
+  if (!res.ok) {
+    throw new Error("Failed to update book with id: ", bookId);
   }
 
   return true;

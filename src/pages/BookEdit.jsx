@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import "../styles/BookNew.css";
 import { Form, useLoaderData, useNavigate, redirect } from "react-router-dom";
-import { requireAuth } from "../utils";
-import { getAuthorsGenres, getBook } from "../api";
+import { requireAuth, isAuthorized } from "../utils";
+import { getAuthorsGenres, getBook, updateBook } from "../api";
 
 export async function loader({ params }) {
   await requireAuth();
-  //return await getAuthorsGenres();
+  if (!isAuthorized()) throw redirect("/");
 
   // Run both API calls in parallel
   const [book, meta] = await Promise.all([
@@ -22,8 +22,8 @@ export async function loader({ params }) {
   };
 }
 
-export async function action({ request }) {
-  /*const formData = await request.formData();
+export async function action({ request, params }) {
+  const formData = await request.formData();
 
   const title = formData.get("title");
   const authorId = Number(formData.get("author"));
@@ -40,32 +40,26 @@ export async function action({ request }) {
   const name = "";
   const id = authorId;
 
-  console.log("title", title);
-  console.log("author", authorId);
-  console.log("genres", genres);
-  console.log("publishedDate", publishedDate);
-  console.log("totalPages", totalPages);
-  console.log("description", description);
-
   try {
-    const data = await addBook({
-      title,
-      bookDetails: { description, publishedDate, totalPages },
-      authorId,
-      author: { id, name },
-      genres,
-    });
-    return redirect("/books");
+    const data = await updateBook(
+      {
+        title,
+        bookDetails: { description, publishedDate, totalPages },
+        authorId,
+        author: { id, name },
+        genres,
+      },
+      params.id
+    );
+    return redirect(`/books/${params.id}`);
   } catch (err) {
     return err;
-  }*/
+  }
 }
 
 function BookEdit() {
   const { book, authors, genres } = useLoaderData();
   const navigate = useNavigate();
-
-  console.log(book);
 
   return (
     <div className="new-book-container">

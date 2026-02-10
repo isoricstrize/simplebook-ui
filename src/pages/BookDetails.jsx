@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../styles/BookDetails.css";
 import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
-import { requireAuth } from "../utils";
+import { requireAuth, isAuthorized } from "../utils";
 import { getBook, deleteBook } from "../api";
 
 export async function loader({ params }) {
@@ -12,7 +12,7 @@ export async function loader({ params }) {
 function BookDetails() {
   const book = useLoaderData();
   const navigate = useNavigate();
-  const isAdmin = true;
+  const isAdmin = isAuthorized();
 
   function handleDelete() {
     if (!window.confirm("Are you sure you want to delete this book?")) return;

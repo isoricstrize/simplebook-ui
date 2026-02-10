@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import "../styles/BookNew.css";
 import { Form, useLoaderData, useNavigate, redirect } from "react-router-dom";
-import { requireAuth } from "../utils";
+import { requireAuth, isAuthorized } from "../utils";
 import { getAuthorsGenres, addBook } from "../api";
 
 export async function loader() {
   await requireAuth();
+  if (!isAuthorized()) throw redirect("/");
+
   return await getAuthorsGenres();
 }
 

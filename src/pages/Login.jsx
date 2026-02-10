@@ -8,6 +8,7 @@ import {
   Link,
 } from "react-router-dom";
 import { loginUser } from "../api";
+import { setAccessToken, setRefreshToken, setUsername } from "../utils";
 
 export function loader({ request }) {
   return new URL(request.url).searchParams.get("message");
@@ -19,9 +20,9 @@ export async function action({ request }) {
   const password = formData.get("password");
   try {
     const data = await loginUser({ username, password });
-    localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("refreshToken", data.refreshToken);
-    localStorage.setItem("username", username);
+    setAccessToken(data.accessToken);
+    setRefreshToken(data.refreshToken);
+    setUsername(username);
     return redirect("/profile");
   } catch (err) {
     return err;

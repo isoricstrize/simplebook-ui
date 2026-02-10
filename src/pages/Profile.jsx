@@ -1,14 +1,16 @@
 import "../styles/Profile.css";
 import { redirect, useNavigate } from "react-router-dom";
+import { clearLocalStorageData, getUsername } from "../utils";
 
 function Profile() {
   const navigate = useNavigate();
-  const username = localStorage.getItem("username");
+  const username = getUsername();
 
   function logout() {
-    localStorage.removeItem("accessToken");
+    /*localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    localStorage.removeItem("username");
+    localStorage.removeItem("username");*/
+    clearLocalStorageData();
     navigate("/login");
   }
 
