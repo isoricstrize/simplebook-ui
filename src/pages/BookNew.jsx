@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "../styles/BookNew.css";
 import { Form, useLoaderData, useNavigate, redirect } from "react-router-dom";
 import { requireAuth, isAuthorized } from "../utils";
-import { getAuthorsGenres, addBook } from "../api/authApi";
+import { getAuthorsGenres, addBook } from "../api/bookApi";
 
 export async function loader() {
   await requireAuth();

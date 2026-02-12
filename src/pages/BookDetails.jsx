@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../styles/BookDetails.css";
 import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import { requireAuth, isAuthorized } from "../utils";
-import { getBook, deleteBook } from "../api/authApi";
+import { getBook, deleteBook } from "../api/bookApi";
 
 export async function loader({ params }) {
   await requireAuth();

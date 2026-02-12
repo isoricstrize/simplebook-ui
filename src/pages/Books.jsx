@@ -1,6 +1,6 @@
 import "../styles/Books.css";
 import { requireAuth, isAuthorized } from "../utils";
-import { getBooks } from "../api/authApi";
+import { getBooks } from "../api/bookApi";
 import { Link, useLoaderData } from "react-router-dom";
 
 export async function loader() {
