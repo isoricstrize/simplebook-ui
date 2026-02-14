@@ -25,6 +25,14 @@ A React frontend for browsing and managing books, connected to a backend API ([S
 - HTML5 & CSS3
 - Vite 7
 
+## Future Improvements
+
+- Add search, filtering, sorting, and pagination for books.
+- Allow admins to create new authors instead of only choosing from existing authors.
+- Improve security by moving tokens from localStorage to HttpOnly cookies.
+- Improve UI.
+- Add unit and integration tests.
+
 ## Screenshots
 
 <details>
@@ -73,11 +81,3 @@ Password: Admin123
 ```
 
 **Note:** These credentials are for demo/testing only.
-
-## Future Improvements
-
-- Add search, filtering, sorting, and pagination for books.
-- Allow admins to create new authors instead of only choosing from existing authors.
-- Improve security by moving tokens from localStorage to HttpOnly cookies.
-- Improve UI.
-- Add unit and integration tests.
